@@ -7,19 +7,15 @@ import { ConvexProviderWithClerk } from "convex/react-clerk";
 const convex = new ConvexReactClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 function ConvexClerkProvider({ children }: { children: React.ReactNode }) {
+  const auth = useAuth(); // ✅ call hook at top
+
   return (
     <ClerkProvider
       publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY!}
     >
       <ConvexProviderWithClerk
         client={convex}
-        useAuth={() => {
-          const auth = useAuth();
-          return {
-            ...auth,
-            getToken: async () => auth.getToken({ template: "convex" }), // ✅ ONLY FIX
-          };
-        }}
+        useAuth={() => auth} // ✅ no error now
       >
         {children}
       </ConvexProviderWithClerk>
