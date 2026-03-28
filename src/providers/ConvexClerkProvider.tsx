@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react"; // Added this to fix the red line on React.ReactNode
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { ConvexReactClient } from "convex/react";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
@@ -15,7 +16,7 @@ function ConvexClerkProvider({ children }: { children: React.ReactNode }) {
     >
       <ConvexProviderWithClerk
         client={convex}
-        useAuth={() => auth} // ✅ no error now
+        useAuth={useAuth} // Simplified this line
       >
         {children}
       </ConvexProviderWithClerk>
